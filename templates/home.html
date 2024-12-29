@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection</title>
+</head>
+<body>
+    <h1>Object Detection with YOLOv5</h1>
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <label for="image">Upload an image:</label>
+        <input type="file" id="image" name="image" accept="image/*">
+        <button type="submit">Detect</button>
+    </form>
+
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if image_url %}
+    <h2>Detection Result</h2>
+    <img src="{{ image_url }}" alt="Detection Result" style="max-width: 100%; height: auto;">
+    <h3>Predictions:</h3>
+    <ul>
+        {% for prediction in predictions %}
+        <li>
+            {{ prediction['name'] }} - Confidence: {{ prediction['confidence'] | round(2) }}
+            (xmin: {{ prediction['xmin'] }}, ymin: {{ prediction['ymin'] }},
+            xmax: {{ prediction['xmax'] }}, ymax: {{ prediction['ymax'] }})
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
